@@ -26,6 +26,7 @@ target_link_libraries(helloworld_cli PRIVATE
 )
 
 if(WITH_BOOST_TEST)
+    set(Boost_DEBUG ON)
     find_package(Boost COMPONENTS unit_test_framework REQUIRED)
     add_executable(test_version test_version.cpp)
 
