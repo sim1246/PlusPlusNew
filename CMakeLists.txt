@@ -28,6 +28,7 @@ target_link_libraries(helloworld_cli PRIVATE
 )
 
 if(WITH_GTEST)
+    enable_testing()
     if (MSVC)
         set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     endif()
