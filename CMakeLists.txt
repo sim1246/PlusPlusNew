@@ -5,7 +5,9 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(helloworld VERSION ${PROJECT_VESRION})
 
-option(WITH_BOOST_TEST "Whether to build Boost test" ON)
+option(WITH_BOOST_TEST "Whether to build Boost test" OFF)
+
+option(WITH_GTEST "Whether to build Gtest" ON)
 
 configure_file(version.h.in version.h)
 
@@ -24,6 +26,23 @@ target_include_directories(helloworld
 target_link_libraries(helloworld_cli PRIVATE
     helloworld
 )
+
+if(WITH_GTEST)
+    if (MSVC)
+        set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    endif()
+    add_subdirectory(googletest)
+    
+    add_executable(gtest_version gtest_version.cpp)
+    
+    target_link_libraries(gtest_version gtest_main helloworld)
+    
+    include(GoogleTest)
+    gtest_discover_tests(gtest_version)
+
+
+
+endif()
 
 if(WITH_BOOST_TEST)
     set(Boost_DEBUG OFF)
